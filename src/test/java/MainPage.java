@@ -34,7 +34,6 @@ public class MainPage {
 
     @Test
     public void login() throws IOException {
-        wd.get("https://hh.ru");
         Properties properties = new Properties();
         FileInputStream fileInputStream;
         fileInputStream = new FileInputStream("src/test/resources/config.propeties");
@@ -42,6 +41,15 @@ public class MainPage {
 
         String login = properties.getProperty("login");
         String password = properties.getProperty("password");
+
+        login(login, password);
+
+        WebElement profileMenu = wd.findElement(By.xpath("//span[@class='navi-item__employer-info']"));
+        Assert.assertEquals(profileMenu.getText(), "Дмитрий Хицунов");
+    }
+
+    private void login(String login, String password) {
+        wd.get("https://hh.ru");
 
         WebElement closeRegion = wd.findElement(By.xpath("//div[@data-qa=\"notification-close-button\"]"));
         closeRegion.click();
@@ -52,9 +60,6 @@ public class MainPage {
         loginField.sendKeys(login);
         passwordField.sendKeys(password);
         passwordField.submit();
-
-        WebElement profileMenu = wd.findElement(By.xpath("//span[@class='navi-item__employer-info']"));
-        Assert.assertEquals(profileMenu.getText(), "Дмитрий Хицунов");
     }
 
     @AfterMethod
