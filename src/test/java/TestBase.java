@@ -1,6 +1,11 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -49,5 +54,41 @@ public class TestBase {
         loginField.sendKeys(login);
         passwordField.sendKeys(password);
         passwordField.submit();
+    }
+
+    public boolean isElementClickable(WebElement element) {
+        try {
+            new WebDriverWait(wd, 10).until(ExpectedConditions.elementToBeClickable(element));
+            return true;
+        } catch (WebDriverException e) {
+            throw new Error("Element in not visible");
+        }
+    }
+
+    public boolean isElementClickable(By locator) {
+        try {
+            new WebDriverWait(wd, 10).until(ExpectedConditions.elementToBeClickable(locator));
+            return true;
+        } catch (WebDriverException e) {
+            throw new Error("Element in not visible");
+        }
+    }
+
+    public boolean isElementInvisible (By locator) {
+        try {
+            new WebDriverWait(wd, 10).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+            return true;
+        } catch (WebDriverException e) {
+            throw new Error("Element is visible");
+        }
+    }
+
+    public boolean isElementVisible (By locator) {
+        try {
+            new WebDriverWait(wd, 10).until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+            return true;
+        } catch (WebDriverException e) {
+            throw new Error("Element in not visible");
+        }
     }
 }
