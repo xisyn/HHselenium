@@ -18,7 +18,7 @@ public class SearchTests extends TestBase {
     }
 
     @Test
-    public void advancedSearch() throws InterruptedException {
+    public void advancedSearch() {
         login();
 
         WebElement advancedSearch = wd.findElement(By.xpath("//*[@data-qa='search-input']/following-sibling::*"));
@@ -58,7 +58,21 @@ public class SearchTests extends TestBase {
         WebElement search = wd.findElement(By.xpath("//*[@id='submit-bottom']"));
         search.click();
 
-        /*Добавить проверок, на условия поиска и на то что есть результаты, должны соответствовать*/
+        /*Заголовок страницы*/
+        WebElement pageTitle = wd.findElement(By.xpath("//*[@data-qa='page-title']"));
+        Assert.assertTrue(pageTitle.getText().contains("QA"));
+        /*Профобласть*/
+        WebElement resultProfArea = wd.findElement(By.xpath("//*[@data-toggle='professionalArea']/following::span[1]"));
+        Assert.assertEquals("IT, телеком", resultProfArea.getText());
+        /*Специализация*/
+        WebElement resultSpec = wd.findElement(By.xpath("//*[@data-toggle='specialization']/following::span[1]"));
+        Assert.assertEquals("Тестирование", resultSpec.getText());
+        /*Опыт работы*/
+        WebElement resultExp = wd.findElement(By.xpath("//*[@data-toggle='experience']/following::span[1]"));
+        Assert.assertEquals("От 3 до 6 лет", resultExp.getText());
+        /*Тип занятости*/
+        WebElement resultEmployment = wd.findElement(By.xpath("//*[@data-toggle='employment']/following::span[1]"));
+        Assert.assertEquals("Полная занятость", resultEmployment.getText());
 
     }
 }
